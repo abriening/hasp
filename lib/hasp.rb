@@ -6,4 +6,8 @@ module Hasp
   autoload :Policy, "hasp/policy"
   autoload :DefaultPolicy, "hasp/default_policy"
   autoload :Controller, "hasp/controller"
+
+  def self.policies
+    @policies ||= []
+  end
 end

@@ -2,9 +2,21 @@ require_relative './test_helper.rb'
 
 class PolicyTest < MiniTest::Unit::TestCase
   def setup
-    @current_user = Object.new
-    @account = Struct.new(:user).new(@current_user)
+    @current_user = User.new
+    @account = Account.new(@current_user)
     @policy = AccountPolicy.new(@current_user, @account)
+  end
+
+  def test_policies
+    assert_includes Hasp.policies, AccountPolicy
+    assert_includes Hasp.policies, UserPolicy
+  end
+
+  def test_policy_select
+    assert_equal AccountPolicy, Hasp::Policy.select(Account.name)
+    assert_equal UserPolicy, Hasp::Policy.select(User.name)
+    assert_nil Hasp::Policy.select(Object.name)
+    assert_nil Hasp::Policy.select(nil)
   end
 
   def test_authorizes?

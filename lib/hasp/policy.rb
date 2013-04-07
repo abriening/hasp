@@ -10,6 +10,14 @@ module Hasp
       unless policy.methods.include?(:filter)
         policy.extend Filter
       end
+      Hasp.policies << policy
+    end
+
+    def self.select(name)
+      return if name.nil?
+      Hasp.policies.detect do |policy|
+        policy.name =~ %r!^#{name}!
+      end
     end
 
     def show?

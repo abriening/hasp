@@ -1,5 +1,7 @@
 require 'minitest/autorun'
 
+Account = Struct.new(:user)
+
 class AccountPolicy < Struct.new(:current_user, :account)
   include Hasp::Policy
 
@@ -19,6 +21,8 @@ class AccountPolicy < Struct.new(:current_user, :account)
     end
   end
 end
+
+class User; end
 
 class UserPolicy < Struct.new(:current_user, :user)
   include Hasp::Policy

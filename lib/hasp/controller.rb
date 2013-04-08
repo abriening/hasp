@@ -1,8 +1,8 @@
 module Hasp
   module Controller
     module Helper
-      def policy_authorizes(model, action=action_name, policy=nil)
-        controller.policy(model, policy).authorizes?(action)
+      def policy_authorizes(model, action)
+        controller.policy(model).authorizes?(action)
       end
     end
 
@@ -14,21 +14,16 @@ module Hasp
       end
     end
 
-    def policy(model, policy=nil)
-      (policy || policy_class).new(current_user, model)
+    def policy(model)
+      policy_class(model.class.name).new(current_user, model)
     end
 
-    def policy_filter(collection, policy=nil)
-      (policy || policy_class).filter(current_user, collection)
+    def policy_filter(collection)
+      policy_class(collection.klass.name).filter(current_user, collection)
     end
 
-    def policy_class
-      name = "#{self.class.name.demodulize.sub(/Controller$/, '').singularize}Policy"
-      if Object.const_defined? name
-        Object.const_get(name)
-      else
-        Hasp::DefaultPolicy
-      end
+    def policy_class(name)
+      Hasp::Policy.select(name) || Hasp::DefaultPolicy
     end
   end
 end

@@ -49,24 +49,3 @@ class AccountsController
     @current_user, @action_name = current_user, action_name
   end
 end
-
-unless "".respond_to?(:demodulize)
-  class String
-    def demodulize
-      path = self.to_s
-      if i = path.rindex('::')
-        path[(i+2)..-1]
-      else
-        path
-      end
-    end
-  end
-end
-
-unless "".respond_to?(:singularize)
-  class String
-    def singularize
-      self.sub(/s$/i, '')
-    end
-  end
-end

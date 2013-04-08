@@ -5,7 +5,8 @@ module Hasp
   class DefaultPolicyNotDefined < StandardError; end
 
   autoload :Policy, "hasp/policy"
-  autoload :DefaultPolicy, "hasp/default_policy"
+  autoload :AllowPolicy, "hasp/allow_policy"
+  autoload :DenyPolicy, "hasp/deny_policy"
   autoload :Controller, "hasp/controller"
 
   class << self
@@ -18,7 +19,7 @@ module Hasp
       if defined?(@default_policy)
         @default_policy || raise(DefaultPolicyNotDefined)
       else
-        DefaultPolicy
+        DenyPolicy
       end
     end
   end

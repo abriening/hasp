@@ -7,14 +7,14 @@ class HaspTest < MiniTest::Unit::TestCase
   end
 
   def test_default_policy
-    assert_equal Hasp::DefaultPolicy, Hasp.default_policy
+    assert_equal Hasp::DenyPolicy, Hasp.default_policy
   end
 
   def test_can_set_default_policy
     Hasp.default_policy = UserPolicy
     assert_equal UserPolicy, Hasp.default_policy
   ensure
-    Hasp.default_policy = Hasp::DefaultPolicy
+    Hasp.default_policy = Hasp::DenyPolicy
   end
 
   def test_raises_if_default_policy_nil
@@ -23,6 +23,6 @@ class HaspTest < MiniTest::Unit::TestCase
       Hasp.default_policy
     end
   ensure
-    Hasp.default_policy = Hasp::DefaultPolicy
+    Hasp.default_policy = Hasp::DenyPolicy
   end
 end

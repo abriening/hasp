@@ -21,6 +21,12 @@ class PolicyTest < MiniTest::Unit::TestCase
     assert_equal false, @policy.authorizes?(:read)
   end
 
+  def test_authorizes_does_not_check_object_methods
+    assert_equal false, @policy.authorizes?(:trust)
+    assert_equal false, @policy.authorizes?(:to_s)
+    assert_equal false, @policy.authorizes?(:send)
+  end
+
   def test_authorize_aliases
     assert_equal true, @policy.authorizes?(:show)
     assert_equal true, @policy.authorizes?(:index)

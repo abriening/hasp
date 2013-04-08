@@ -5,12 +5,36 @@ module Hasp
         collection
       end
     end
+    module Aliases
+      def show
+        authorizes? :read
+      end
+
+      def index
+        authorizes? :read
+      end
+
+      def new
+        authorizes? :create
+      end
+
+      def edit
+        authorizes? :update
+      end
+    end
+
+    include Aliases
 
     def self.included(policy)
       unless policy.methods.include?(:filter)
         policy.extend Filter
       end
       Hasp.policies << policy
+    end
+
+    def self.rules(policy)
+      return Aliases.public_instance_methods(false) unless policy < Hasp::Policy
+      policy.public_instance_methods(false) | rules(policy.superclass)
     end
 
     def self.select(name)
@@ -20,25 +44,9 @@ module Hasp
       end
     end
 
-    def show
-      authorizes? :read
-    end
-
-    def index
-      authorizes? :read
-    end
-
-    def new
-      authorizes? :create
-    end
-
-    def edit
-      authorizes? :update
-    end
-
     def authorizes?(action)
-      if respond_to? action
-        send action
+      if Hasp::Policy.rules(self.class).include?(action.to_sym)
+        __send__ action
       else
         false
       end

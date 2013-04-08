@@ -5,11 +5,11 @@ Account = Struct.new(:user)
 class AccountPolicy < Struct.new(:current_user, :account)
   include Hasp::Policy
 
-  def read?
+  def read
     current_user == account.user
   end
 
-  def destroy?
+  def destroy
     false
   end
 
@@ -27,7 +27,7 @@ class User; end
 class UserPolicy < Struct.new(:current_user, :user)
   include Hasp::Policy
 
-  def destroy?
+  def destroy
     true
   end
 end

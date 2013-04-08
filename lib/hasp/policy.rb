@@ -20,26 +20,25 @@ module Hasp
       end
     end
 
-    def show?
+    def show
       authorizes? :read
     end
 
-    def index?
+    def index
       authorizes? :read
     end
 
-    def new?
+    def new
       authorizes? :create
     end
 
-    def edit?
+    def edit
       authorizes? :update
     end
 
     def authorizes?(action)
-      method = "#{action}?"
-      if respond_to? method
-        send method
+      if respond_to? action
+        send action
       else
         false
       end

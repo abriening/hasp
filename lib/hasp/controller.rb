@@ -23,7 +23,7 @@ module Hasp
     end
 
     def policy_class(name)
-      Hasp::Policy.select(name) || Hasp::DefaultPolicy
+      Hasp::Policy.select(name) || Hasp.default_policy
     end
   end
 end

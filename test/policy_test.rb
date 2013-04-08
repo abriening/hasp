@@ -7,11 +7,6 @@ class PolicyTest < MiniTest::Unit::TestCase
     @policy = AccountPolicy.new(@current_user, @account)
   end
 
-  def test_policies
-    assert_includes Hasp.policies, AccountPolicy
-    assert_includes Hasp.policies, UserPolicy
-  end
-
   def test_policy_select
     assert_equal AccountPolicy, Hasp::Policy.select(Account.name)
     assert_equal UserPolicy, Hasp::Policy.select(User.name)

@@ -5,6 +5,13 @@ module Hasp
         new(current_user, nil).filter(collection)
       end
     end
+
+    module Collection
+      def inherited(policy)
+        Hasp.policies << policy
+      end
+    end
+
     module Aliases
       def show
         authorizes? :read
@@ -29,6 +36,7 @@ module Hasp
       unless policy.methods.include?(:filter)
         policy.extend Filter
       end
+      policy.extend Collection
       Hasp.policies << policy
     end
 

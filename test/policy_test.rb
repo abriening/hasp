@@ -7,6 +7,11 @@ class PolicyTest < MiniTest::Unit::TestCase
     @policy = AccountPolicy.new(@current_user, @account)
   end
 
+  def test_inherited_policy_is_added_to_policies
+    policy = Class.new(AccountPolicy)
+    assert_includes Hasp.policies, policy
+  end
+
   def test_policy_select
     assert_equal AccountPolicy, Hasp::Policy.select(Account.name)
     assert_equal UserPolicy, Hasp::Policy.select(User.name)

@@ -1,7 +1,6 @@
 module Hasp
   class AllowPolicy < Struct.new(:current_user, :model)
     include Policy
-    extend Filter
 
     def read
       true

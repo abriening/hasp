@@ -2,7 +2,7 @@ module Hasp
   module Policy
     module Filter
       def filter(current_user, collection)
-        collection
+        new(current_user, nil).filter(collection)
       end
     end
     module Aliases
@@ -57,7 +57,7 @@ module Hasp
     end
 
     def filter(collection)
-      self.class.filter(current_user, collection)
+      collection
     end
   end
 end

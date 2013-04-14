@@ -1,6 +1,9 @@
 module Hasp
   class DenyPolicy < Struct.new(:current_user, :model)
     include Policy
-    extend Filter
+
+    def filter(collection)
+      []
+    end
   end
 end

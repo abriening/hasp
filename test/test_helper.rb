@@ -13,7 +13,7 @@ class AccountPolicy < Struct.new(:current_user, :account)
     false
   end
 
-  def self.filter(current_user, collection)
+  def filter(collection)
     if current_user
       collection
     else

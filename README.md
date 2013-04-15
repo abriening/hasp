@@ -1,6 +1,8 @@
 Hasp
 ====
 
+[![Code Climate](https://codeclimate.com/github/abriening/hasp.png)](https://codeclimate.com/github/abriening/hasp)
+
 Description
 -----------
 A user authorization tool.

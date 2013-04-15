@@ -1,36 +1,10 @@
 module Hasp
   module Policy
-    module Filter
-      def filter(current_user, collection)
-        new(current_user, nil).filter(collection)
-      end
-    end
+    autoload :Filter, "hasp/policy/filter"
+    autoload :Collection, "hasp/policy/collection"
+    autoload :DefaultRules, "hasp/policy/default_rules"
 
-    module Collection
-      def inherited(policy)
-        Hasp.policies << policy
-      end
-    end
-
-    module Aliases
-      def show
-        authorizes? :read
-      end
-
-      def index
-        authorizes? :read
-      end
-
-      def new
-        authorizes? :create
-      end
-
-      def edit
-        authorizes? :update
-      end
-    end
-
-    include Aliases
+    include DefaultRules
 
     def self.included(policy)
       unless policy.methods.include?(:filter)
@@ -41,7 +15,7 @@ module Hasp
     end
 
     def self.rules(policy)
-      return Aliases.public_instance_methods(false) unless policy < Hasp::Policy
+      return DefaultRules.public_instance_methods(false) unless policy < Hasp::Policy
       policy.public_instance_methods(false) | rules(policy.superclass)
     end
 

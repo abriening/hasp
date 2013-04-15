@@ -7,6 +7,40 @@ class PolicyTest < MiniTest::Unit::TestCase
     @policy = AccountPolicy.new(@current_user, @account)
   end
 
+  def test_policy_deafult_applies_to_any_rule
+    @policy_class = Class.new(Hasp::DenyPolicy) do
+      def default; true; end
+    end
+    @policy = @policy_class.new @current_user, @account
+    assert_equal true, @policy.authorizes?(:read)
+    assert_equal true, @policy.authorizes?(:new)
+    assert_equal true, @policy.authorizes?(:patch)
+  end
+
+  def test_policy_all_applies_to_crud_rules
+    @policy_class = Class.new(Hasp::DenyPolicy) do
+      all do
+        true
+      end
+    end
+    @policy = @policy_class.new @current_user, @account
+    assert_equal true, @policy.authorizes?(:read)
+    assert_equal true, @policy.authorizes?(:new)
+    assert_equal false, @policy.authorizes?(:patch)
+  end
+
+  def test_policy_all_can_use_instance_variables
+    @policy_class = Class.new(Hasp::DenyPolicy) do
+      all do
+        current_user == model.user
+      end
+    end
+    @policy = @policy_class.new @current_user, @account
+    assert_equal true, @policy.authorizes?(:read)
+    @policy.model.user = nil
+    assert_equal false, @policy.authorizes?(:read)
+  end
+
   def test_inherited_policy_is_added_to_policies
     policy = Class.new(AccountPolicy)
     assert_includes Hasp.policies, policy

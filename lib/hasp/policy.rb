@@ -1,7 +1,7 @@
 module Hasp
   module Policy
     autoload :Filter, "hasp/policy/filter"
-    autoload :Collection, "hasp/policy/collection"
+    autoload :Interface, "hasp/policy/interface"
     autoload :DefaultRules, "hasp/policy/default_rules"
 
     include DefaultRules
@@ -10,7 +10,7 @@ module Hasp
       unless policy.methods.include?(:filter)
         policy.extend Filter
       end
-      policy.extend Collection
+      policy.extend Interface
       Hasp.policies << policy
     end
 
@@ -26,11 +26,15 @@ module Hasp
       end
     end
 
+    def default
+      false
+    end
+
     def authorizes?(action)
       if Hasp::Policy.rules(self.class).include?(action.to_sym)
         __send__ action
       else
-        false
+        default
       end
     end
 

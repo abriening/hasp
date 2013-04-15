@@ -2,6 +2,7 @@ Hasp
 ====
 
 [![Code Climate](https://codeclimate.com/github/abriening/hasp.png)](https://codeclimate.com/github/abriening/hasp)
+[![Build Status](https://travis-ci.org/abriening/hasp.png?branch=master)](https://travis-ci.org/abriening/hasp)
 
 Description
 -----------
